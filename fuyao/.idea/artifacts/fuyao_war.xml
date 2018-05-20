@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="fuyao:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="linktrust-management.war">
+      <element id="artifact" artifact-name="fuyao:war exploded" />
+    </root>
+  </artifact>
+</component>

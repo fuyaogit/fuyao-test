@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
+       default-lazy-init="true">
+
+
+    <!-- 登录成功后返回的地址及登录服务页所在路径 -->
+    <!-- <bean id="simpleAuthorFilter" class="com.linktrust.access.filter.SimpleAuthorFilter">
+        <property name="loginPaths"> 强化拦截的url,未登录则定向到登录
+            <list>
+                <value>/</value>
+                <value>/login/**</value>
+            </list>
+        </property>
+    </bean> -->
+
+    <bean id="shiroFilter" class="com.linktrust.fuyao.shiro.ClientShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/index.jsp"/>
+        <property name="successUrl" value="/views/success.jsp"/>
+        <!-- <property name="filters">
+            <map>
+                <entry key="anon" value-ref="simpleAuthorFilter"/>
+            </map>
+        </property> -->
+        <property name="filterChainDefinitions">
+            <value>
+                /** = authc
+            </value>
+        </property>
+    </bean>
+
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="shiroRealm"/>
+        <!-- <property name="sessionManager" ref="shiroSessionManager"/> -->
+    </bean>
+
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <bean id="shiroRealm" class="com.linktrust.fuyao.shiro.ShiroRealm"/>
+
+	<!-- session的配置 -->
+    <!--  <bean id="shiroSessionManager"
+          class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        超时时间
+        <property name="sessionDAO" ref="sessDao"/>
+        <property name="sessionIdCookie" ref="shareSessionCookie"/>        定时检查失效的session
+        <property name="sessionValidationSchedulerEnabled" value="false"/> 不进行session会话调度检查
+        <property name="deleteInvalidSessions" value="false"/> 不销毁持久化session对象
+    </bean>
+
+    <bean id="shareSessionCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg name="name" value="SHAREJSESSIONID"/>
+        <property name="path" value="/"/>
+    </bean>
+
+    <bean id="sessDao"
+          class="com.linktrust.access.session.RedisShiroSessionDao">
+    </bean>
+
+    <bean id="shiroCacheManager" class="com.linktrust.access.filter.ShiroRedisCacheManager">
+    <property name="cached" ref="redisCached"/>
+    </bean> -->
+
+</beans>

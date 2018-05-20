@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.linktrust.fuyao.dao.LoginMapper"> 
+	
+    <select id="selectUserByLoginParam" parameterType="map" resultType="com.linktrust.fuyao.bean.User">
+        select * from users where username = #{userName} and password = #{passWord}
+    </select>
+    
+    <select id="updateUser" parameterType="com.linktrust.fuyao.bean.User">
+        update users set username = #{userName}
+        <if test="passWord!=null">
+            ,password = #{passWord}
+        </if>
+        where id = #{id}  
+    </select>
+    
+    <select id="selectAllPrivilege" resultType="com.linktrust.fuyao.bean.Privilege">
+        select * from u_sys_privilege where type != '0' and status = '0'
+    </select>
+    
+    <select id="selectPriNameByUser" parameterType="string" resultType="string">
+        select * from u_sys_privilege p
+        left join u_sys_role_privilege rp on rp.pri_id = p.pri_id
+        left join u_sys_user_role ur on ur.role_id = rp.role_id
+        where ur.user_id = #{userId} and p.type != '0' and p.status = '0'
+    </select>
+</mapper>
